@@ -12,7 +12,7 @@ paddle_speed = 200
 
 function love.load()
 	love.graphics.setDefaultFilter('nearest',nearest)
-	background=love.graphics.newImage('bebeko.png')
+	background=love.graphics.newImage('ppong.png')
 
 	love.window.setTitle('Pong')
 
