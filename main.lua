@@ -7,6 +7,7 @@ window_width = 1280; window_height = 720
 virtual_width = 432; virtual_height = 243
 
 paddle_speed = 200
+AI = false
 
 
 
@@ -26,8 +27,8 @@ function love.load()
 	}
 
 	smallFont = love.graphics.newFont('font.ttf', 8)
-    largeFont = love.graphics.newFont('font.ttf', 16)
-    scoreFont = love.graphics.newFont('font.ttf', 32)
+    	largeFont = love.graphics.newFont('font.ttf', 16)
+    	scoreFont = love.graphics.newFont('font.ttf', 32)
     	
 	push:setupScreen(virtual_width, virtual_height, window_width, window_height, {
 		fullscreen = false,
@@ -41,7 +42,7 @@ function love.load()
 	ball = Ball(virtual_width/2-4, virtual_height/2-4, 8, 8)
 
 	player1Score = 0
-    player2Score = 0
+    	player2Score = 0
 
 	servingPlayer = 1
 	winningPlayer=0
@@ -152,12 +153,16 @@ function love.update(dt)
     end
 
 
-    if love.keyboard.isDown('up') then
-        player2.dy = -paddle_speed
-    elseif love.keyboard.isDown('down') then
-        player2.dy = paddle_speed
+    if AI then
+	player2.y=ball.y
     else
-        player2.dy = 0
+	if love.keyboard.isDown('up') then
+            player2.dy = -paddle_speed
+    	elseif love.keyboard.isDown('down') then
+            player2.dy = paddle_speed
+    	else
+            player2.dy = 0
+	end
     end
 
 
@@ -173,10 +178,15 @@ end
 
 
 function love.keypressed(key)
+	
+    if key == 'a' and gameState == 'start' then
+	AIMode = true
+    end
+	
     if key == 'escape' then
         love.event.quit()
 
-    elseif key == 'enter' or key == 'return' then
+    elseif key == 'enter' or key == 'return' or key == 'a' then
         if gameState == 'start' then
             gameState = 'serve'
 
@@ -203,14 +213,13 @@ end
 
 function love.draw()
 	push:apply('start')
-
-	love.graphics.setColor(0,255,1,27)
+	
 	love.graphics.draw(background, 0, 0)
 
 	if gameState=='start' then
 		love.graphics.setFont(smallFont)
 		love.graphics.printf('Welcome to Pong!',0,10, virtual_width, 'center')
-		love.graphics.printf('Press Enter to begin!', 0, 20, virtual_width, 'center')
+		love.graphics.printf('Press Enter to begin! Enter A for AI mode', 0, 20, virtual_width, 'center')
 	elseif gameState== 'serve' then
 		love.graphics.setFont(smallFont)
 		love.graphics.printf('Player '..tostring(servingPlayer)..'s serve!', 0, 10, virtual_width, 'center')
@@ -223,7 +232,7 @@ function love.draw()
 	end
 
 	displayScore()
-
+    love.graphics.setColor(0, 255, 1, 27)
     player1:render()
     player2:render()
     ball:render()
