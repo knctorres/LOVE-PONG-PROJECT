@@ -8,8 +8,6 @@ virtual_width = 432; virtual_height = 243
 
 paddle_speed = 200
 AIMode = false
-easy = false
-hard = false
 AISpeed = 0
 manlalaro=0
 
@@ -213,11 +211,9 @@ function love.keypressed(key)
 
 
 	if key == 'e' and AIMode ==true then
-		easy = true
 		AISpeed = 30
 		text  = "Easy opponent"
 	elseif key == 'h' and AIMode == true then
-		hard = true
 		AISpeed = 2
 		text  = "Tough opponent"
 	end
