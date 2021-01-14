@@ -74,7 +74,14 @@ function love.update(dt)
         else
             ball.dx = -math.random(140, 250)
         end
+	elseif gameState == 'serve' and player1Score==0 and player2Score==0 then
 
+            ball.dy = math.random(-50, 50)
+            if servingPlayer == 1 then
+                ball.dx = math.random(50, 70)
+            else
+                ball.dx = -math.random(50, 70)
+            end
 
 	elseif gameState == 'play' then
 
